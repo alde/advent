@@ -70,3 +70,14 @@ func LazyReadLines(filename string) <-chan *LineData {
 
 	return ch
 }
+
+func ConsumeAllInput(linesChan <-chan *LineData) ([]string, error) {
+	input := []string{}
+	for line := range linesChan {
+		if line.Error != nil {
+			return nil, line.Error
+		}
+		input = append(input, line.Line)
+	}
+	return input, nil
+}

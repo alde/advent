@@ -11,7 +11,7 @@ import (
 type Solution struct {
 	Day     int
 	Title   string
-	Lines   <-chan *LineData
+	Lines   []string
 	Results map[int]*Part
 }
 
@@ -21,17 +21,24 @@ type Part struct {
 }
 
 func NewSolution(day int, title string, input string) *Solution {
-	l := LazyReadLines(input)
+	// l := LazyReadLines(input)
+	lines, err := ReadLines(input)
+	if err != nil {
+		panic(err)
+	}
 	return &Solution{
 		Day:     day,
 		Title:   title,
-		Lines:   l,
+		Lines:   lines,
 		Results: make(map[int]*Part),
 	}
 }
 
-func (s *Solution) Solve(part int, f func(<-chan *LineData) int) {
-	result, elapsed := WithTimer(func() int { return f(s.Lines) })
+func (s *Solution) Solve(part int, f func(lines []string) (int, error)) {
+	result, elapsed, err := WithTimer(func() (int, error) { return f(s.Lines) })
+	if err != nil {
+		panic(err)
+	}
 	s.Results[part] = &Part{
 		Result:  result,
 		Elapsed: elapsed,
