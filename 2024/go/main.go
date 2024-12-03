@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"alde.nu/advent/2024/day1"
+	"alde.nu/advent/2024/day2"
 )
 
 func main() {
@@ -15,6 +16,7 @@ func main() {
 
 	days := map[int]func(){
 		1: day1.Solve,
+		2: day2.Solve,
 	}
 
 	if *target == "all" {
