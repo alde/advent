@@ -8,6 +8,7 @@ import (
 
 	"alde.nu/advent/2024/day1"
 	"alde.nu/advent/2024/day2"
+	"alde.nu/advent/2024/day3"
 )
 
 func main() {
@@ -17,6 +18,7 @@ func main() {
 	days := map[int]func(){
 		1: day1.Solve,
 		2: day2.Solve,
+		3: day3.Solve,
 	}
 
 	if *target == "all" {

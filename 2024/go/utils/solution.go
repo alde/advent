@@ -56,8 +56,10 @@ func (s *Solution) printHeader() {
 }
 
 func (s *Solution) printResults() {
-	for i, r := range s.Results {
-		fmt.Printf("\t⭐ [%12s]\tPart %d\t%v\n", r.Elapsed, i, r.Result)
+	r := s.Results
+
+	for i := 1; i <= len(r); i++ { // make sure ordering is right
+		fmt.Printf("\t⭐ [%12s]\tPart %d\t%v\n", r[i].Elapsed, i, r[i].Result)
 	}
 }
 
