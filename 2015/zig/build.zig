@@ -25,7 +25,7 @@ pub fn build(b: *std.Build) void {
     });
 
     _ = b.addModule("day1", .{ .root_source_file = b.path("src/day1/main.zig") });
-    _ = b.addModule("shared", .{.root_source_file = b.path("src/shared.zig")});
+    _ = b.addModule("shared", .{ .root_source_file = b.path("src/shared.zig") });
 
     // This declares intent for the library to be installed into the standard
     // location when the user invokes the "install" step (the default step when
