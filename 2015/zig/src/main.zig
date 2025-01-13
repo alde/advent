@@ -12,21 +12,31 @@ pub fn main() !void {
     _ = args.next();
 
     if (args.next()) |day| {
-        if (std.mem.eql(u8, day, "all") or std.mem.eql(u8, day, "1")) {
+        if (shouldRun(day, "1")) {
             try day1.part1();
             try day1.part2();
         }
-        if (std.mem.eql(u8, day, "all") or std.mem.eql(u8, day, "2")) {
+        if (shouldRun(day, "2")) {
             try day2.part1();
             try day2.part2();
         }
-        if (std.mem.eql(u8, day, "all") or std.mem.eql(u8, day, "3")) {
+        if (shouldRun(day, "3")) {
             try day3.part1();
             try day3.part2();
         }
-        if (std.mem.eql(u8, day, "all") or std.mem.eql(u8, day, "4")) {
+        if (shouldRun(day, "4")) {
             try day4.part1();
             try day4.part2();
         }
     }
+}
+
+fn shouldRun(input: []const u8, day: []const u8) bool {
+    if (std.mem.eql(u8, input, "all")) {
+        return true;
+    }
+    if (std.mem.eql(u8, input, day)) {
+        return true;
+    }
+    return false;
 }
