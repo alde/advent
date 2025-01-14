@@ -40,8 +40,8 @@ test "day 4" {
     const testing = std.testing;
 
     {
-        try testing.expectEqual(609043, firstDigit("abcdef"));
-        try testing.expectEqual(1048970, firstDigit("pqrstuv"));
+        try testing.expectEqual(609043, firstDigit("abcdef", 5));
+        try testing.expectEqual(1048970, firstDigit("pqrstuv", 5));
     }
 
     {}

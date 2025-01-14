@@ -61,3 +61,32 @@ pub fn iterLines(filename: []const u8) !ReadByLineIterator {
         .buf = undefined,
     };
 }
+
+pub fn stringContains(haystack: []const u8, needle: []const u8) bool {
+    var i: usize = 0;
+    if (haystack.len < needle.len) {
+        return false;
+    }
+
+    if (haystack.len == needle.len) {
+        return std.mem.eql(u8, haystack, needle);
+    }
+    const n = needle.len;
+    while (i < haystack.len) : (i += 1) {
+        if (i + n > haystack.len) {
+            break;
+        }
+        if (std.mem.eql(u8, haystack[i .. i + n], needle)) {
+            return true;
+        }
+    }
+    return false;
+}
+test "stringContains" {
+    const testing = std.testing;
+
+    try testing.expectEqual(true, stringContains("abba", "ab"));
+    try testing.expectEqual(true, stringContains("abba", "bb"));
+    try testing.expectEqual(true, stringContains("abba", "ba"));
+    try testing.expectEqual(false, stringContains("abba", "bab"));
+}
