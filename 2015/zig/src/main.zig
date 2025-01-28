@@ -4,6 +4,7 @@ const day2 = @import("day2/main.zig");
 const day3 = @import("day3/main.zig");
 const day4 = @import("day4/main.zig");
 const day5 = @import("day5/main.zig");
+const day6 = @import("day6/main.zig");
 
 pub fn main() !void {
     const allocator = std.heap.page_allocator;
@@ -32,6 +33,10 @@ pub fn main() !void {
         if (shouldRun(day, "5")) {
             try day5.part1();
             try day5.part2();
+        }
+        if (shouldRun(day, "6")) {
+            try day6.part1();
+            try day6.part2();
         }
     }
 }
