@@ -16,10 +16,10 @@ func ReadFile(path string) string {
 
 type LineGenerator chan string
 
-func ReadLines(path string) (LineGenerator, error) {
+func ReadLines(path string) LineGenerator {
 	file, err := os.Open(path)
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
 	reader := bufio.NewReader(file)
@@ -37,5 +37,5 @@ func ReadLines(path string) (LineGenerator, error) {
 		file.Close()
 	}()
 
-	return lines, nil
+	return lines
 }

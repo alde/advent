@@ -1,8 +1,6 @@
 package day01
 
 import (
-	"log/slog"
-	"os"
 	"time"
 
 	"github.com/alde/advent/2015/golang/shared"
@@ -24,12 +22,7 @@ func Solve() {
 }
 
 func part1(input string) shared.Part {
-
-	lines, err := shared.ReadLines(input)
-	if err != nil {
-		slog.Error("failed to read file")
-		os.Exit(1)
-	}
+	lines := shared.ReadLines(input)
 	start := time.Now()
 
 	result := 0
@@ -43,12 +36,7 @@ func part1(input string) shared.Part {
 }
 
 func part2(input string) shared.Part {
-
-	lines, err := shared.ReadLines(input)
-	if err != nil {
-		slog.Error("failed to read file")
-		os.Exit(1)
-	}
+	lines := shared.ReadLines(input)
 	start := time.Now()
 
 	result := 0
