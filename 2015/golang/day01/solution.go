@@ -8,11 +8,9 @@ import (
 	"github.com/alde/advent/2015/golang/shared"
 )
 
-const Title = "Not Quite Lisp"
-
 func Solve() {
 	result := shared.Result{
-		Title: Title,
+		Title: "Not Quite Lisp",
 		Day:   1,
 	}
 

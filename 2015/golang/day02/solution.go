@@ -10,11 +10,9 @@ import (
 	"github.com/alde/advent/2015/golang/shared"
 )
 
-const Title = "I Was Told There Would Be No Math"
-
 func Solve() {
 	result := shared.Result{
-		Title: Title,
+		Title: "I Was Told There Would Be No Math",
 		Day:   2,
 	}
 

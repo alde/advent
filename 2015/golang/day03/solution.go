@@ -8,11 +8,9 @@ import (
 	"github.com/alde/advent/2015/golang/shared"
 )
 
-const Title = "Perfectly Spherical Houses in a Vacuum"
-
 func Solve() {
 	result := shared.Result{
-		Title: Title,
+		Title: "Perfectly Spherical Houses in a Vacuum",
 		Day:   3,
 	}
 
