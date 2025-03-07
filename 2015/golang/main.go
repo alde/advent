@@ -5,29 +5,22 @@ import (
 
 	"github.com/alde/advent/2015/golang/day01"
 	"github.com/alde/advent/2015/golang/day02"
+	"github.com/alde/advent/2015/golang/day03"
 )
 
 type Solution struct {
-	Fn   func()
-	Name string
+	Fn func()
 }
 
 func main() {
-	solutions := make([]*Solution, 0, 25)
-	solutions = append(solutions, &Solution{
-		Fn:   day01.Solve,
-		Name: day01.Title,
-	})
+	solutions := []func(){
+		day01.Solve,
+		day02.Solve,
+		day03.Solve,
+	}
 
-	solutions = append(solutions, &Solution{
-		Fn:   day02.Solve,
-		Name: day02.Title,
-	})
-
-	fmt.Printf("%d of %d days completed\n\n", len(solutions), cap(solutions))
-
-	for _, s := range solutions {
-		s.Fn()
+	for _, solution := range solutions {
+		solution()
 		fmt.Println()
 	}
 
