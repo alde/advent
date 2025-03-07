@@ -3,6 +3,7 @@ package day04
 import (
 	"crypto/md5"
 	"fmt"
+	"strconv"
 	"strings"
 	"time"
 
@@ -44,16 +45,16 @@ func part2() shared.Part {
 }
 
 func firstNumber(secretKey string, targetZeros int) int {
-	padding := 10_000
 	prefix := strings.Repeat("0", targetZeros)
+	i, _ := strconv.Atoi(fmt.Sprintf("1%s", prefix))
 	for {
-		candidate := fmt.Sprintf("%s%d", secretKey, padding)
+		candidate := fmt.Sprintf("%s%d", secretKey, i)
 
 		hash := md5.Sum([]byte(candidate))
 		hex := fmt.Sprintf("%x", hash)
 		if strings.HasPrefix(hex, prefix) {
-			return padding
+			return i
 		}
-		padding++
+		i++
 	}
 }
