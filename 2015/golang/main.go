@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/alde/advent/2015/golang/day01"
+	"github.com/alde/advent/2015/golang/day02"
 )
 
 type Solution struct {
@@ -18,7 +19,16 @@ func main() {
 		Name: day01.Title,
 	})
 
+	solutions = append(solutions, &Solution{
+		Fn:   day02.Solve,
+		Name: day02.Title,
+	})
+
 	fmt.Printf("%d of %d days completed\n\n", len(solutions), cap(solutions))
 
-	solutions[0].Fn()
+	for _, s := range solutions {
+		s.Fn()
+		fmt.Println()
+	}
+
 }
