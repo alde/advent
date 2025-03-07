@@ -8,6 +8,7 @@ import (
 )
 
 func Solve() {
+	shared.InputMustExist("./day05/input.txt", 2015, 5)
 	result := shared.Result{
 		Title: "Doesn't He Have Intern-Elves For This?",
 		Day:   5,
