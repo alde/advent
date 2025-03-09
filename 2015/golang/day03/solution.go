@@ -7,6 +7,7 @@ import (
 )
 
 func Solve() {
+	shared.InputMustExist("./day03/input.txt", 2015, 3)
 	result := shared.Result{
 		Title: "Perfectly Spherical Houses in a Vacuum",
 		Day:   3,

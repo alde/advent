@@ -16,6 +16,17 @@ func ReadFile(path string) string {
 
 type LineGenerator chan string
 
+func Stream(lines []string) LineGenerator {
+	lg := make(LineGenerator)
+	go func() {
+		defer close(lg)
+		for _, line := range lines {
+			lg <- line
+		}
+	}()
+	return lg
+}
+
 func ReadLines(path string) LineGenerator {
 	file, err := os.Open(path)
 	if err != nil {

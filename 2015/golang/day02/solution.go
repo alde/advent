@@ -9,6 +9,7 @@ import (
 )
 
 func Solve() {
+	shared.InputMustExist("./day02/input.txt", 2015, 2)
 	result := shared.Result{
 		Title: "I Was Told There Would Be No Math",
 		Day:   2,

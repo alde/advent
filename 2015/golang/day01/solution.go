@@ -7,6 +7,7 @@ import (
 )
 
 func Solve() {
+	shared.InputMustExist("./day01/input.txt", 2015, 1)
 	result := shared.Result{
 		Title: "Not Quite Lisp",
 		Day:   1,
