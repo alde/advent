@@ -1,23 +1,25 @@
 const std = @import("std");
 const shared = @import("../shared.zig");
-const stdout = std.io.getStdOut().writer();
+const zlog = @import("zlog");
 const testing = std.testing;
 
+const Log = zlog.Logger(.info, .{});
+const ColorHandler = zlog.ColorHandler.Handler(.{ .timestamp = .rfc3339 });
+
 pub fn part1() !void {
-    try stdout.print("Day 6 Part 1\n", .{});
+    var handler = ColorHandler.init(zlog.stderr);
+    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    defer logger.deinit();
+    logger.info("starting", .{ .day = 6, .part = 1 });
     var line_it = try shared.iterLines("src/day6/input.txt");
     defer line_it.deinit();
     const n: usize = 1000;
 
-    // Need to create the matrix on the heap because it's too big for the stack.
-    // This is not apparent because `zig build` doesn't say anything - it just
-    // crashes with a exit code 1 and no stack trace.
     const allocator = std.heap.page_allocator;
 
     const temp = try allocator.alloc([n][n]usize, 1);
     defer allocator.free(temp);
 
-    // Initialize the slice
     for (&temp[0]) |*row| {
         for (row) |*val| {
             val.* = 0;
@@ -27,29 +29,27 @@ pub fn part1() !void {
 
     while (try line_it.next()) |line| {
         const is = try processInstruction(line);
-        // stdout.print("is.action {}\n", .{is.action}) catch unreachable;
         updateMatrix(n, n, &matrix, is);
     }
     const result = countLights(n, n, matrix);
 
-    try stdout.print("Result: {}\n", .{result});
+    logger.info("completed", .{ .day = 6, .part = 1, .result = result });
 }
 
 pub fn part2() !void {
-    try stdout.print("Day 6 Part 2\n", .{});
+    var handler = ColorHandler.init(zlog.stderr);
+    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    defer logger.deinit();
+    logger.info("starting", .{ .day = 6, .part = 2 });
     var line_it = try shared.iterLines("src/day6/input.txt");
     defer line_it.deinit();
     const n: usize = 1000;
 
-    // Need to create the matrix on the heap because it's too big for the stack.
-    // This is not apparent because `zig build` doesn't say anything - it just
-    // crashes with a exit code 1 and no stack trace.
     const allocator = std.heap.page_allocator;
 
     const temp = try allocator.alloc([n][n]usize, 1);
     defer allocator.free(temp);
 
-    // Initialize the slice
     for (&temp[0]) |*row| {
         for (row) |*val| {
             val.* = 0;
@@ -59,12 +59,11 @@ pub fn part2() !void {
 
     while (try line_it.next()) |line| {
         const is = try processInstruction(line);
-        // stdout.print("is.action {}\n", .{is.action}) catch unreachable;
         updateMatrix2(n, n, &matrix, is);
     }
     const result = countLights(n, n, matrix);
 
-    try stdout.print("Result: {}\n", .{result});
+    logger.info("completed", .{ .day = 6, .part = 2, .result = result });
 }
 
 const Action = enum { TURN_ON, TOGGLE, TURN_OFF };
@@ -80,7 +79,7 @@ const InstructionSet = struct {
 };
 
 fn createPoint(s: []const u8) Point {
-    var it = std.mem.split(u8, s, ",");
+    var it = std.mem.splitSequence(u8, s, ",");
     var ints: [2]usize = [2]usize{ 0, 0 };
     var i: usize = 0;
     while (it.next()) |item| : (i += 1) {
@@ -91,7 +90,7 @@ fn createPoint(s: []const u8) Point {
 
 fn processInstruction(instruction: []const u8) !InstructionSet {
     if (std.mem.eql(u8, instruction[0..7], "turn on")) {
-        var it = std.mem.split(u8, instruction[8..], " ");
+        var it = std.mem.splitSequence(u8, instruction[8..], " ");
         var i: i32 = 0;
         var start: Point = .{ .x = 0, .y = 0 };
         var end: Point = .{ .x = 0, .y = 0 };
@@ -109,7 +108,7 @@ fn processInstruction(instruction: []const u8) !InstructionSet {
         };
     }
     if (std.mem.eql(u8, instruction[0..8], "turn off")) {
-        var it = std.mem.split(u8, instruction[9..], " ");
+        var it = std.mem.splitSequence(u8, instruction[9..], " ");
         var i: i32 = 0;
         var start: Point = .{ .x = 0, .y = 0 };
         var end: Point = .{ .x = 0, .y = 0 };
@@ -127,7 +126,7 @@ fn processInstruction(instruction: []const u8) !InstructionSet {
         };
     }
     if (std.mem.eql(u8, instruction[0..6], "toggle")) {
-        var it = std.mem.split(u8, instruction[7..], " ");
+        var it = std.mem.splitSequence(u8, instruction[7..], " ");
         var i: i32 = 0;
         var start: Point = .{ .x = 0, .y = 0 };
         var end: Point = .{ .x = 0, .y = 0 };

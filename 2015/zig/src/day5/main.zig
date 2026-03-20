@@ -1,10 +1,15 @@
 const std = @import("std");
 const shared = @import("../shared.zig");
+const zlog = @import("zlog");
 
-const stdout = std.io.getStdOut().writer();
+const Log = zlog.Logger(.info, .{});
+const ColorHandler = zlog.ColorHandler.Handler(.{ .timestamp = .rfc3339 });
 
 pub fn part1() !void {
-    try stdout.print("Day 5 Part 1\n", .{});
+    var handler = ColorHandler.init(zlog.stderr);
+    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    defer logger.deinit();
+    logger.info("starting", .{ .day = 5, .part = 1 });
     var line_it = try shared.iterLines("src/day5/input.txt");
     defer line_it.deinit();
 
@@ -14,7 +19,7 @@ pub fn part1() !void {
             result += 1;
         }
     }
-    try stdout.print("Result: {}\n", .{result});
+    logger.info("completed", .{ .day = 5, .part = 1, .result = result });
 }
 
 fn isStringNice(input: []const u8) bool {
@@ -42,7 +47,10 @@ fn isStringNice(input: []const u8) bool {
 }
 
 pub fn part2() !void {
-    try stdout.print("Day 5 Part 2\n", .{});
+    var handler = ColorHandler.init(zlog.stderr);
+    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    defer logger.deinit();
+    logger.info("starting", .{ .day = 5, .part = 2 });
     var line_it = try shared.iterLines("src/day5/input.txt");
     defer line_it.deinit();
 
@@ -52,7 +60,7 @@ pub fn part2() !void {
             result += 1;
         }
     }
-    try stdout.print("Result: {}\n", .{result});
+    logger.info("completed", .{ .day = 5, .part = 2, .result = result });
 }
 
 fn isNiceImproved(input: []const u8) bool {

@@ -1,13 +1,19 @@
 const std = @import("std");
 const shared = @import("../shared.zig");
+const zlog = @import("zlog");
+
+const Log = zlog.Logger(.info, .{});
+const ColorHandler = zlog.ColorHandler.Handler(.{ .timestamp = .rfc3339 });
 
 pub fn part1() !void {
-    const stdout = std.io.getStdOut().writer();
-    try stdout.print("Day 3 Part 1\n", .{});
+    var handler = ColorHandler.init(zlog.stderr);
+    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    defer logger.deinit();
+    logger.info("starting", .{ .day = 3, .part = 1 });
     const inputData = try shared.readInput("src/day3/input.txt");
     const result: usize = try countHouses(inputData);
 
-    try stdout.print("Result: {}\n", .{result});
+    logger.info("completed", .{ .day = 3, .part = 1, .result = result });
 }
 
 fn countHouses(directions: []const u8) !usize {
@@ -38,12 +44,14 @@ fn countHouses(directions: []const u8) !usize {
 }
 
 pub fn part2() !void {
-    const stdout = std.io.getStdOut().writer();
-    try stdout.print("Day 3 Part 2\n", .{});
+    var handler = ColorHandler.init(zlog.stderr);
+    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    defer logger.deinit();
+    logger.info("starting", .{ .day = 3, .part = 2 });
     const inputData = try shared.readInput("src/day3/input.txt");
     const result: usize = try countHousesWithRobot(inputData);
 
-    try stdout.print("Result: {}\n", .{result});
+    logger.info("completed", .{ .day = 3, .part = 2, .result = result });
 }
 
 fn countHousesWithRobot(directions: []const u8) !usize {

@@ -1,9 +1,15 @@
 const std = @import("std");
 const shared = @import("../shared.zig");
+const zlog = @import("zlog");
+
+const Log = zlog.Logger(.info, .{});
+const ColorHandler = zlog.ColorHandler.Handler(.{ .timestamp = .rfc3339 });
 
 pub fn part1() !void {
-    const stdout = std.io.getStdOut().writer();
-    try stdout.print("Day 2 Part 1\n", .{});
+    var handler = ColorHandler.init(zlog.stderr);
+    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    defer logger.deinit();
+    logger.info("starting", .{ .day = 2, .part = 1 });
 
     var line_it = try shared.iterLines("src/day2/input.txt");
     defer line_it.deinit();
@@ -14,7 +20,7 @@ pub fn part1() !void {
         result += neededPaper(dim[0], dim[1], dim[2]);
     }
 
-    try stdout.print("Result: {}\n", .{result});
+    logger.info("completed", .{ .day = 2, .part = 1, .result = result });
 }
 
 fn neededPaper(length: i32, width: i32, height: i32) i32 {
@@ -42,8 +48,10 @@ fn parseDimensions(input: []const u8) ![3]i32 {
 }
 
 pub fn part2() !void {
-    const stdout = std.io.getStdOut().writer();
-    try stdout.print("Day 2 Part 2\n", .{});
+    var handler = ColorHandler.init(zlog.stderr);
+    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    defer logger.deinit();
+    logger.info("starting", .{ .day = 2, .part = 2 });
 
     var line_it = try shared.iterLines("src/day2/input.txt");
     defer line_it.deinit();
@@ -54,7 +62,7 @@ pub fn part2() !void {
         result += ribbonLength(dim[0], dim[1], dim[2]);
     }
 
-    try stdout.print("Result: {}\n", .{result});
+    logger.info("completed", .{ .day = 2, .part = 2, .result = result });
 }
 
 fn ribbonLength(a: i32, b: i32, c: i32) i32 {
