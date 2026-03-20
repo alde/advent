@@ -1,5 +1,5 @@
 const std = @import("std");
-const zlog = @import("zlog");
+const shared = @import("shared.zig");
 const day1 = @import("day1/main.zig");
 const day2 = @import("day2/main.zig");
 const day3 = @import("day3/main.zig");
@@ -7,12 +7,8 @@ const day4 = @import("day4/main.zig");
 const day5 = @import("day5/main.zig");
 const day6 = @import("day6/main.zig");
 
-const Log = zlog.Logger(.info, .{});
-const ColorHandler = zlog.ColorHandler.Handler(.{ .timestamp = .rfc3339 });
-
 pub fn main() !void {
-    var handler = ColorHandler.init(zlog.stderr);
-    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    var logger = try shared.initLogger();
     defer logger.deinit();
 
     logger.info("advent of code 2015", .{});

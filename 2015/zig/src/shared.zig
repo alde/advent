@@ -1,4 +1,15 @@
 const std = @import("std");
+const zlog = @import("zlog");
+
+pub const Log = zlog.Logger(.info, .{});
+
+const ColorHandler = zlog.ColorHandler.Handler(.{ .timestamp = .rfc3339 });
+var handler = ColorHandler.init(zlog.stderr);
+
+pub fn initLogger() !Log {
+    const allocator = std.heap.page_allocator;
+    return Log.init(.{ .handler = handler.handler(), .allocator = allocator });
+}
 
 /// Reads the entire content of a file as a single long line.
 /// Returns the content as a `[]const u8`.

@@ -1,13 +1,8 @@
 const std = @import("std");
 const shared = @import("../shared.zig");
-const zlog = @import("zlog");
-
-const Log = zlog.Logger(.info, .{});
-const ColorHandler = zlog.ColorHandler.Handler(.{ .timestamp = .rfc3339 });
 
 pub fn part1() !void {
-    var handler = ColorHandler.init(zlog.stderr);
-    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    var logger = try shared.initLogger();
     defer logger.deinit();
     logger.info("starting", .{ .day = 5, .part = 1 });
     var line_it = try shared.iterLines("src/day5/input.txt");
@@ -47,8 +42,7 @@ fn isStringNice(input: []const u8) bool {
 }
 
 pub fn part2() !void {
-    var handler = ColorHandler.init(zlog.stderr);
-    var logger = try Log.init(.{ .handler = handler.handler(), .allocator = std.heap.page_allocator });
+    var logger = try shared.initLogger();
     defer logger.deinit();
     logger.info("starting", .{ .day = 5, .part = 2 });
     var line_it = try shared.iterLines("src/day5/input.txt");
